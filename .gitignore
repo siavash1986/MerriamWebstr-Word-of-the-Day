@@ -1,0 +1,30 @@
+build
+.gradle
+.idea
+local.properties
+gradle
+out
+classes
+.project
+.classpath
+.settings
+
+.DS_Store
+
+*.iml
+*.ipr
+*.iws
+
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+
+# sensetive info
+application.properties
+gradle.properties
+secrets.properties
