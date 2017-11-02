@@ -61,7 +61,8 @@ public class WordController {
                 localDate.isAfter(LocalDate.now())));
     }
 
-    private LocalDate parseDate(String date) {
-        return date.equals("today") ? LocalDate.now() : LocalDate.parse(date);
+    private String parseDate(String date) {
+        return date.equals("today") ? LocalDate.now().format(DateTimeFormatter.ISO_DATE)
+                : date;
     }
 }

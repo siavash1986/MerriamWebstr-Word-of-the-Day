@@ -10,18 +10,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
 
-public interface WordRepository extends JpaRepository<Word, LocalDate> {
+public interface WordRepository extends JpaRepository<Word, String> {
 
     static CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder()
             .withCache("preConfigured",
-                    CacheConfigurationBuilder.newCacheConfigurationBuilder(LocalDate.class, Word.class,
+                    CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, Word.class,
                             ResourcePoolsBuilder.heap(100))
                             .build())
             .build(true);
 
-    static Cache<LocalDate, Word> wordsCache = cacheManager.getCache("preConfigured", LocalDate.class, Word.class);
+    static Cache<String, Word> wordsCache = cacheManager.getCache("preConfigured", String.class, Word.class);
 
-    public default Word findWordByDate(LocalDate date){
+    public default Word findWordByDate(String date){
         if (wordsCache.containsKey(date)){
             return wordsCache.get(date);
         } else{

@@ -5,7 +5,6 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -13,7 +12,7 @@ public final class Word implements Serializable{
 
     @Id
     @Column(name = "wd_date")
-    private LocalDate date;
+    private String date;
 
     @Column (name = "wd_title")
     private String title;
@@ -43,11 +42,11 @@ public final class Word implements Serializable{
 
     public Word(){}
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
