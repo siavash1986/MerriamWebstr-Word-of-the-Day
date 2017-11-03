@@ -36,6 +36,7 @@ dependencies {
     compile "org.hibernate:hibernate-core:${hibernateVersion}"
     compile 'org.jsoup:jsoup:1.10.3'
     compile 'org.ehcache:ehcache:3.4.0'
+    compile 'org.apache.commons:commons-lang3:3.6'
 
     runtime group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
 

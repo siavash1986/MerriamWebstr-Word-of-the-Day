@@ -1,5 +1,8 @@
 package me.siavash.wotd.entities;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -127,5 +130,15 @@ public final class Word implements Serializable{
                 ", podcastUrl= '" + podcastUrl + '\'' +
                 ", imageUrl= '" + imageUrl + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj.getClass() == getClass() && EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 }
