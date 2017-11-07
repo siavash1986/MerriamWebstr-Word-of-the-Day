@@ -29,7 +29,7 @@ public class DBUpdate {
     @RequestMapping(method = RequestMethod.PUT)
     public @ResponseBody
     Response insert(@RequestParam(value="date", required=false, defaultValue="today") String date){
-        HttpStatus httpStatus = Utils.validate(date);
+        HttpStatus httpStatus = Utils.validate(date)? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         if (httpStatus == HttpStatus.OK){
             Word word = Parser.get(Utils.parseDate(date));
             Word saved = repository.save(word);
