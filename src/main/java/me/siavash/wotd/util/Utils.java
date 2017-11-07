@@ -1,28 +1,22 @@
 package me.siavash.wotd.util;
 
-import org.springframework.http.HttpStatus;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Utils {
 
-    public static HttpStatus validate(String date) {
+    public static boolean validate(String date) {
         if (date.equals("today")) {
-            return HttpStatus.OK;
+            return true;
         }
         try{
             LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
-            if (validDateRange(localDate)){
-                return HttpStatus.OK;
-            } else {
-                return HttpStatus.BAD_REQUEST;
-            }
+            return validDateRange(localDate);
 
         }
         catch (DateTimeParseException e){
-            return HttpStatus.BAD_REQUEST;
+            return false;
         }
     }
 
