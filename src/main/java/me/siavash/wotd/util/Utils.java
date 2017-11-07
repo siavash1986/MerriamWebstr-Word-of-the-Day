@@ -20,6 +20,11 @@ public class Utils {
         }
     }
 
+    public static boolean validate(String begin, String end) {
+        return validate(begin) && validate(end)
+                && !LocalDate.parse(parseDate(begin)).isAfter(LocalDate.parse(parseDate(end)));
+    }
+
     private static boolean validDateRange(LocalDate localDate){
         return (!(localDate.isBefore(LocalDate.of(2006, 10,25)) ||
                 localDate.isAfter(LocalDate.now())));
