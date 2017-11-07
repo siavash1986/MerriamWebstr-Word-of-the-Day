@@ -26,13 +26,13 @@ public class WordController {
     }
 
     @RequestMapping(method= RequestMethod.GET)
-    public Response getWord(@RequestParam(value="date", required=false, defaultValue="today") String date) {
-        HttpStatus httpStatus = Utils.validate(date);
+    public Response<Word> getWord(@RequestParam(value="date", required=false, defaultValue="today") String date) {
+        HttpStatus httpStatus = Utils.validate(date) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         if (httpStatus == HttpStatus.OK){
             Word one = repository.findWordByDate(Utils.parseDate(date));
-            return new Response(one, httpStatus);
+            return new Response<>(one, httpStatus);
         } else {
-            return new Response(httpStatus);
+            return new Response<>(httpStatus);
         }
     }
 

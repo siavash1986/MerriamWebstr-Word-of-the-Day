@@ -1,19 +1,16 @@
 package me.siavash.wotd;
 
 
-import me.siavash.wotd.entities.Word;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
-public class Response extends ResponseEntity<Word> {
-
-
+public class Response<T> extends ResponseEntity<T> {
     public Response(HttpStatus status) {
         super(status);
     }
 
-    public Response(Word body, HttpStatus status) {
+    public Response(T body, HttpStatus status) {
         super(body, status);
     }
 
@@ -21,7 +18,7 @@ public class Response extends ResponseEntity<Word> {
         super(headers, status);
     }
 
-    public Response(Word body, MultiValueMap<String, String> headers, HttpStatus status) {
+    public Response(T body, MultiValueMap<String, String> headers, HttpStatus status) {
         super(body, headers, status);
     }
 }
