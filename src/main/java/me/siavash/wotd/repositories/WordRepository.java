@@ -1,6 +1,8 @@
 package me.siavash.wotd.repositories;
 
 import me.siavash.wotd.entities.Word;
+import me.siavash.wotd.entities.FlatWord;
+import me.siavash.wotd.util.Utils;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
 import org.ehcache.config.builders.CacheConfigurationBuilder;
@@ -14,8 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public interface WordRepository extends JpaRepository<Word, String> {
 
@@ -31,12 +31,23 @@ public interface WordRepository extends JpaRepository<Word, String> {
     default Word findWordByDate(String date){
         if (wordsCache.containsKey(date)){
             return wordsCache.get(date);
-        } else{
+        } else {
             Word word =  getOne(date);
             wordsCache.put(date, word);
             return word;
         }
 
+    }
+
+    default FlatWord findFlatWordByDate(String date){
+        if (wordsCache.containsKey(date)){
+            return Utils.flatWordAdapter(wordsCache.get(date));
+        } else {
+            Word w = getOne(date);
+            FlatWord word = Utils.flatWordAdapter(w);
+            wordsCache.put(date, w);
+            return word;
+        }
     }
 
     @SuppressWarnings("SpringDataRepositoryMethodReturnTypeInspection")
@@ -57,5 +68,13 @@ public interface WordRepository extends JpaRepository<Word, String> {
 
         // This syntax is also possible but runs much slower.
         //return findAll(dateRange).parallelStream().collect(Collectors.toMap(Word::getDate, Function.identity()));
+    }
+
+    @SuppressWarnings("SpringDataRepositoryMethodReturnTypeInspection")
+    default Map<String, FlatWord> findFlatWordsByDateRange(String dateBegin, String dateEnd){
+        Map<String, Word> wordsByDateRange = findWordsByDateRange(dateBegin, dateEnd);
+        Map<String, FlatWord> flatWordMap = new HashMap<>();
+        wordsByDateRange.keySet().forEach(key -> flatWordMap.put(key, Utils.flatWordAdapter(wordsByDateRange.get(key))));
+        return flatWordMap;
     }
 }
