@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 public class Utils {
 
+    private Utils(){}
+
     public static boolean validate(String date) {
         if (date.equals("today")) {
             return true;
