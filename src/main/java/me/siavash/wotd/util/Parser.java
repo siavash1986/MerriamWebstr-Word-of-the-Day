@@ -69,11 +69,9 @@ public class Parser {
 
         List<String> defList = new ArrayList<>();
 
-        boolean hasExamples = this.allChildren.contains("Definition");
-        boolean hasDefinition = this.allChildren.contains("Examples");
-        int indexOfDefinition = hasDefinition ? this.allChildren.indexOf("Definition") : 0;
-        int indexOfExample = hasDefinition ? this.allChildren.indexOf("Examples") : this.allChildren.size();
-        for (int i = 0; i < indexOfExample; i++) {
+        boolean hasDefinition = this.allChildren.contains("Did You Know?");
+        int indexOfDidYouKnow = hasDefinition ? this.allChildren.indexOf("Did You Know?") : this.allChildren.size();
+        for (int i = 0; i < indexOfDidYouKnow; i++) {
             defList.add(this.allChildren.get(i));
         }
         defList.removeIf(s -> s.equals("Definition"));
@@ -84,22 +82,29 @@ public class Parser {
 
         List<String> explList = new ArrayList<>();
 
-        boolean hasExamples = this.allChildren.contains("Definition");
-        boolean hasDefinition = this.allChildren.contains("Examples");
-        int indexOfDefinition = hasDefinition ? this.allChildren.indexOf("Definition") : 0;
-        int indexOfExample = hasDefinition ? this.allChildren.indexOf("Examples") : this.allChildren.size();
-
-        for (int i = indexOfExample; i < allChildren.size(); i++) {
-            explList.add(allChildren.get(i));
+        String s = "div.wotd-examples p";
+        Elements select = this.document.select(s);
+        for (Element element : select){
+            if (element != null) {
+                explList.add(select.text());
+            }
         }
-        explList.removeIf(s -> s.equals("Examples"));
+
         return explList;
     }
 
     private String getDidYouKnow(){
-        String s = "div.wod-did-you-know-container p";
-        Element select = this.document.select(s).get(0);
-        return select!=null? select.text() : null;
+
+        List<String> didYouKnowList = new ArrayList<>();
+
+        boolean hasDefinition = this.allChildren.contains("Did You Know?");
+        int indexOfExample = hasDefinition ? this.allChildren.indexOf("Did You Know?") : this.allChildren.size();
+
+        for (int i = indexOfExample; i < allChildren.size(); i++) {
+            didYouKnowList.add(allChildren.get(i));
+        }
+        didYouKnowList.removeIf(s -> s.equals("Did You Know?"));
+        return  didYouKnowList.stream().collect(Collectors.joining("\n"));
     }
 
     private String getDateStamp(){
@@ -108,7 +113,7 @@ public class Parser {
 
     private String getPodcastUrl(){
         String base = "https://s3.us-east-2.amazonaws.com/mwwottd/words/";
-        return base + "wd" + this.date + ".mp3";
+        return base + "wd" + this.date.replace("-", "") + ".mp3";
     }
 
     private String getImageUrl(){
