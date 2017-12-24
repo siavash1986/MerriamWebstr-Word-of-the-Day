@@ -18,30 +18,30 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/word")
 public class DBUpdate {
 
-    private final WordRepository repository;
+  private final WordRepository repository;
 
-    @Autowired
-    public DBUpdate(WordRepository repository) {
-        this.repository = repository;
+  @Autowired
+  public DBUpdate(WordRepository repository) {
+    this.repository = repository;
+  }
+
+
+  @RequestMapping(method = RequestMethod.PUT)
+  public @ResponseBody
+  Response insert(@RequestParam(value = "date", required = false, defaultValue = "today") String date) {
+    HttpStatus httpStatus = Utils.validate(date) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+    if (httpStatus == HttpStatus.OK) {
+      Word word = Parser.get(Utils.parseDate(date));
+      Word saved = repository.save(word);
+      if (word.equals(saved)) {
+        return new Response(HttpStatus.OK);
+      } else {
+        return new Response(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    } else {
+      return new Response(httpStatus);
     }
-
-
-    @RequestMapping(method = RequestMethod.PUT)
-    public @ResponseBody
-    Response insert(@RequestParam(value="date", required=false, defaultValue="today") String date){
-        HttpStatus httpStatus = Utils.validate(date)? HttpStatus.OK : HttpStatus.BAD_REQUEST;
-        if (httpStatus == HttpStatus.OK){
-            Word word = Parser.get(Utils.parseDate(date));
-            Word saved = repository.save(word);
-            if (word.equals(saved)){
-                return new Response(HttpStatus.OK);
-            } else {
-                return new Response(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } else {
-            return new Response(httpStatus);
-        }
-    }
+  }
 
 
 }
