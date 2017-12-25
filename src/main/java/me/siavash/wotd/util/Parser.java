@@ -86,7 +86,7 @@ public class Parser {
     Elements select = this.document.select(s);
     for (Element element : select) {
       if (element != null) {
-        explList.add(select.text());
+        explList.add(element.text());
       }
     }
 
