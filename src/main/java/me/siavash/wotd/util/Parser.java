@@ -95,16 +95,16 @@ public class Parser {
 
   private String getDidYouKnow() {
 
-    List<String> didYouKnowList = new ArrayList<>();
+    List<String> list = new ArrayList<>();
 
-    boolean hasDefinition = this.allChildren.contains("Did You Know?");
-    int indexOfExample = hasDefinition ? this.allChildren.indexOf("Did You Know?") : this.allChildren.size();
-
-    for (int i = indexOfExample; i < allChildren.size(); i++) {
-      didYouKnowList.add(allChildren.get(i));
+    String s = "div.did-you-know-wrapper div.left-content-box p";
+    Elements select = this.document.select(s);
+    for (Element element : select){
+      if (element != null){
+        list.add(element.text());
+      }
     }
-    didYouKnowList.removeIf(s -> s.equals("Did You Know?"));
-    return didYouKnowList.stream().collect(Collectors.joining("\n"));
+    return list.stream().collect(Collectors.joining(System.getProperty("line.separator")));
   }
 
   private String getDateStamp() {
