@@ -33,7 +33,7 @@ public class Utils {
 
   private static boolean validDateRange(LocalDate localDate) {
     return (!(localDate.isBefore(LocalDate.of(2006, 10, 25)) ||
-        localDate.isAfter(LocalDate.now())));
+        localDate.isAfter(LocalDate.now().plusDays(1))));
   }
 
   public static String parseDate(String date) {
