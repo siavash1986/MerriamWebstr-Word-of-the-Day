@@ -26,6 +26,8 @@ public final class FlatWord implements Serializable {
 
   private String imageUrl;
 
+  private String pronounceUrl;
+
   public FlatWord() {
   }
 
@@ -99,6 +101,14 @@ public final class FlatWord implements Serializable {
 
   public void setImageUrl(String imageUrl) {
     this.imageUrl = imageUrl;
+  }
+
+  public String getPronounceUrl() {
+    return pronounceUrl;
+  }
+
+  public void setPronounceUrl(String pronounceUrl) {
+    this.pronounceUrl = pronounceUrl;
   }
 
   @Override

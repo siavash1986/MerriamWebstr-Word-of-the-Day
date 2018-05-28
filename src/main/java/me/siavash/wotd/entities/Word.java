@@ -43,6 +43,9 @@ public final class Word implements Serializable {
   @Column(name = "wd_imageurl")
   private String imageUrl;
 
+  @Column(name = "wd_pronounceUrl")
+  private String pronounceUrl;
+
   public Word() {
   }
 
@@ -116,6 +119,14 @@ public final class Word implements Serializable {
 
   public void setImageUrl(String imageUrl) {
     this.imageUrl = imageUrl;
+  }
+
+  public String getPronounceUrl() {
+    return pronounceUrl;
+  }
+
+  public void setPronounceUrl(String pronounceUrl) {
+    this.pronounceUrl = pronounceUrl;
   }
 
   @Override

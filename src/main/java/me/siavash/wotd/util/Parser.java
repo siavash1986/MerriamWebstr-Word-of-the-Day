@@ -30,6 +30,7 @@ public class Parser {
     word.setDidYouKnow(parser.getDidYouKnow());
     word.setPodcastUrl(parser.getPodcastUrl());
     word.setImageUrl(parser.getImageUrl());
+    word.setPronounceUrl(parser.getPronounceUrl());
     return word;
   }
 
@@ -99,8 +100,8 @@ public class Parser {
 
     String s = "div.did-you-know-wrapper div.left-content-box p";
     Elements select = this.document.select(s);
-    for (Element element : select){
-      if (element != null){
+    for (Element element : select) {
+      if (element != null) {
         list.add(element.text());
       }
     }
@@ -118,6 +119,14 @@ public class Parser {
 
   private String getImageUrl() {
     return null;
+  }
+
+  private String getPronounceUrl() {
+    String url = "https://www.dictionaryapi.com/api/v1/references/collegiate/xml/" + getTitle() + "?key=" + "[Merriam Webster Dictionary API]";
+
+    String xml = Utils.getResponse(url);
+    return xml.equals("") ? "" : Utils.getSoundElementFromXML(xml);
+
   }
 
 
