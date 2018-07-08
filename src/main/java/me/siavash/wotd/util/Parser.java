@@ -122,10 +122,11 @@ public class Parser {
   }
 
   private String getPronounceUrl() {
-    String url = "https://www.dictionaryapi.com/api/v1/references/collegiate/xml/" + getTitle() + "?key=" + "[Merriam Webster Dictionary API]";
+    String url = "https://www.dictionaryapi.com/api/v1/references/collegiate/xml/" + getTitle() + "?key=" + "33c5f056-ddb9-40a3-bc30-2de932b7a26d";
 
     String xml = Utils.getResponse(url);
     return xml.equals("") ? "" : Utils.getSoundElementFromXML(xml);
+
 
   }
 

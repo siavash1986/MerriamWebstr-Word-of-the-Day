@@ -18,6 +18,8 @@ import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class Utils {
@@ -44,7 +46,7 @@ public class Utils {
   }
 
   private static boolean validDateRange(LocalDate localDate) {
-    return (!(localDate.isBefore(LocalDate.of(2006, 10, 25)) ||
+    return (!(localDate.isBefore(LocalDate.of(2006, 8, 31)) ||
         localDate.isAfter(LocalDate.now().plusDays(1))));
   }
 
@@ -101,18 +103,68 @@ public class Utils {
 
     doc.getDocumentElement().normalize();
     NodeList nList = doc.getElementsByTagName("entry");
-    Node nNode = nList.item(0).getFirstChild();
 
-    for (; nNode != null && !nNode.toString().contains("sound"); nNode = nNode.getNextSibling()) ;
+    for (int i = 0; i < nList.getLength(); i++) {
+      Node nNode;
+      try {
+        nNode = nList.item(i).getFirstChild();
+        for (; nNode != null && !nNode.toString().contains("sound"); nNode = nNode.getNextSibling()) ;
 
-    if (nNode == null) return "";
-    else {
+        if (nNode == null) continue;
+        else {
 /*      <sound>
             <wav>hypocr02.wav</wav>
         </sound>
 */
-      String wav = nNode.getFirstChild().getFirstChild().getTextContent();
-      return String.format("https://media.merriam-webster.com/soundc11/%c/%s", wav.charAt(0), wav);
+          String wav = nNode.getFirstChild().getFirstChild().getTextContent();
+          if (wav == null) {
+            continue;
+          }else {
+            return String.format("https://media.merriam-webster.com/soundc11/%c/%s", wav.charAt(0), wav);
+          }
+        }
+
+      } catch (Exception e) {
+        System.out.println(String.format("Exception %s thrown at Utils.getSoundElementFromXML", e.getClass()));
+        Logger.getGlobal().log(Level.WARNING, String.format("Exception %s thrown at Utils.getSoundElementFromXML", e.getClass()));
+        continue;
+      }
     }
+
+    return "";
+  }
+
+  public static String getPronounceUrl(Word word) {
+    String url = "https://www.dictionaryapi.com/api/v1/references/collegiate/xml/" + word.getTitle() + "?key=" + "33c5f056-ddb9-40a3-bc30-2de932b7a26d";
+
+    String xml = Utils.getResponse(url);
+    return xml.equals("") ? "" : Utils.getSoundElementFromXML(xml);
+
+  }
+
+  public static void downloadPodcast(String date) {
+
+    String podcastUrl = "https://www.merriam-webster.com/wotd/feed/rss2";
+    String xml = getResponse(podcastUrl);
+    System.out.println("xml = " + xml);
+
+
+
+
+    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    org.w3c.dom.Document doc = null;
+
+    try {
+      DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+      InputSource is = new InputSource(new StringReader(xml));
+      doc = dBuilder.parse(is);
+    } catch (ParserConfigurationException | IOException | SAXException e) {
+      e.printStackTrace();
+    }
+
+    doc.getDocumentElement().normalize();
+    NodeList nList = doc.getElementsByTagName("item");
+    System.out.println();
+
   }
 }

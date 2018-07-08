@@ -31,6 +31,9 @@ public class DBUpdate {
   Response insert(@RequestParam(value = "date", required = false, defaultValue = "today") String date) {
     HttpStatus httpStatus = Utils.validate(date) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
     if (httpStatus == HttpStatus.OK) {
+
+      new Thread(() -> Utils.downloadPodcast(date)).start();
+
       Word word = Parser.get(Utils.parseDate(date));
       Word saved = repository.save(word);
       if (word.equals(saved)) {

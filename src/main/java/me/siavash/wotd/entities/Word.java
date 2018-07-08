@@ -122,7 +122,7 @@ public final class Word implements Serializable {
   }
 
   public String getPronounceUrl() {
-    return pronounceUrl;
+    return pronounceUrl == null ? "" : pronounceUrl;
   }
 
   public void setPronounceUrl(String pronounceUrl) {
