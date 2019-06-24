@@ -1,5 +1,6 @@
 package me.siavash.wotd.entities;
 
+import lombok.Data;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -11,7 +12,8 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public final class Word implements Serializable {
+@Data
+public final class Word {
 
   @Id
   @Column(name = "wd_date")
@@ -49,108 +51,4 @@ public final class Word implements Serializable {
   public Word() {
   }
 
-  public String getDate() {
-    return date;
-  }
-
-  public void setDate(String date) {
-    this.date = date;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public String getAttribute() {
-    return attribute;
-  }
-
-  public void setAttribute(String attribute) {
-    this.attribute = attribute;
-  }
-
-  public String getSyllables() {
-    return syllables;
-  }
-
-  public void setSyllables(String syllables) {
-    this.syllables = syllables;
-  }
-
-  public List<String> getDefinition() {
-    return definition;
-  }
-
-  public void setDefinition(List<String> definition) {
-    this.definition = definition;
-  }
-
-  public List<String> getExamples() {
-    return examples;
-  }
-
-  public void setExamples(List<String> examples) {
-    this.examples = examples;
-  }
-
-  public String getDidYouKnow() {
-    return didYouKnow;
-  }
-
-  public void setDidYouKnow(String didYouKnow) {
-    this.didYouKnow = didYouKnow;
-  }
-
-  public String getPodcastUrl() {
-    return podcastUrl;
-  }
-
-  public void setPodcastUrl(String podcastUrl) {
-    this.podcastUrl = podcastUrl;
-  }
-
-  public String getImageUrl() {
-    return imageUrl;
-  }
-
-  public void setImageUrl(String imageUrl) {
-    this.imageUrl = imageUrl;
-  }
-
-  public String getPronounceUrl() {
-    return pronounceUrl == null ? "" : pronounceUrl;
-  }
-
-  public void setPronounceUrl(String pronounceUrl) {
-    this.pronounceUrl = pronounceUrl;
-  }
-
-  @Override
-  public String toString() {
-    return "WordoftheDay{" +
-        ", date= '" + date +
-        ", title= '" + title + '\'' +
-        ", attribute= '" + attribute + '\'' +
-        ", syllables= '" + syllables + '\'' +
-        ", definition= " + definition +
-        ", examples= " + examples +
-        ", didYouKnow= '" + didYouKnow + '\'' +
-        ", podcastUrl= '" + podcastUrl + '\'' +
-        ", imageUrl= '" + imageUrl + '\'' +
-        '}';
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    return obj.getClass() == getClass() && EqualsBuilder.reflectionEquals(this, obj);
-  }
-
-  @Override
-  public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
-  }
 }

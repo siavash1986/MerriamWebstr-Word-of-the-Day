@@ -3,6 +3,7 @@ package me.siavash.wotd.controllers;
 import me.siavash.wotd.entities.Word;
 import me.siavash.wotd.repositories.WordRepository;
 import me.siavash.wotd.util.Utils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,19 +22,21 @@ public class Update {
     this.repo = repo;
   }
 
-  @ResponseBody
-  @PostMapping("/update")
-  public String update(@RequestParam(value = "startDate") String startDate,
-                       @RequestParam(value = "endDate") String endDate) {
-
-    Map<String, Word> wordsByDateRange = repo.findWordsByDateRange(startDate, endDate);
-
-    wordsByDateRange.values().parallelStream().forEach(w -> {
-      if (w.getPronounceUrl().equals("")) {
-        w.setPronounceUrl(Utils.getPronounceUrl(w));
-        repo.saveAndFlush(w);
-      }
-    });
+//  @ResponseBody
+//  @PostMapping("/update")
+//  public String update(@RequestParam(value = "startDate") String startDate,
+//                       @RequestParam(value = "endDate") String endDate) {
+//
+//    Map<String, Word> wordsByDateRange = repo.findWordsByDateRange(startDate, endDate);
+//
+//    wordsByDateRange.values()
+//        .parallelStream()
+//        .forEach(w -> {
+//          if (StringUtils.isEmpty(w.getPronounceUrl())) {
+//            w.setPronounceUrl(Utils.getPronounceUrl(w));
+//            repo.saveAndFlush(w);
+//          }
+//        });
 
 //    wordsByDateRange.forEach((k, w) -> {
 //      if (w.getPronounceUrl().equals("")) {
@@ -43,6 +46,6 @@ public class Update {
 //
 //    });
 
-    return "success!";
-  }
+//    return "success!";
+//  }
 }

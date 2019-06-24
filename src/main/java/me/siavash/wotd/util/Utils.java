@@ -1,6 +1,5 @@
 package me.siavash.wotd.util;
 
-import me.siavash.wotd.entities.FlatWord;
 import me.siavash.wotd.entities.Word;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -55,20 +54,6 @@ public class Utils {
         : date;
   }
 
-  public static FlatWord flatWordAdapter(Word w) {
-    FlatWord flatWord = new FlatWord();
-    flatWord.setDate(w.getDate());
-    flatWord.setTitle(w.getTitle() != null ? w.getTitle() : "");
-    flatWord.setAttribute(w.getAttribute() != null ? w.getAttribute() : "");
-    flatWord.setSyllables(w.getSyllables() != null ? w.getSyllables() : "");
-    flatWord.setDefinition(w.getDefinition() != null ? w.getDefinition().stream().collect(Collectors.joining(System.getProperty("line.separator"))) : "");
-    flatWord.setExamples(w.getExamples() != null ? w.getExamples().stream().collect(Collectors.joining(System.getProperty("line.separator"))) : "");
-    flatWord.setDidYouKnow(w.getDidYouKnow() != null ? w.getDidYouKnow() : "");
-    flatWord.setPodcastUrl(w.getPodcastUrl() != null ? w.getPodcastUrl() : "");
-    flatWord.setImageUrl(w.getImageUrl() != null ? w.getImageUrl() : "");
-    flatWord.setPronounceUrl(w.getPronounceUrl() != null ? w.getPronounceUrl() : "");
-    return flatWord;
-  }
 
   public static String getResponse(String url) {
     OkHttpClient client = new OkHttpClient();
