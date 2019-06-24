@@ -1,50 +1,74 @@
-package me.siavash.wotd.util;
+package me.siavash.wotd.service;
 
+
+import lombok.extern.slf4j.Slf4j;
 import me.siavash.wotd.entities.Word;
+import me.siavash.wotd.repositories.WordRepository;
+import me.siavash.wotd.util.Utils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Parser {
+@Service
+@Slf4j
+public class CrawlerService {
 
-  private String urlBase = "https://www.merriam-webster.com/word-of-the-day/";
+  private String baseUrl;
+  private WordRepository repository;
   private String date;
   private Document document;
   private List<String> allChildren;
 
-  public static Word get(String date) {
-    Parser parser = new Parser(date);
-    Word word = new Word();
-    word.setDate(parser.getDateStamp());
-    word.setTitle(parser.getTitle());
-    word.setAttribute(parser.getAttr());
-    word.setSyllables(parser.getSyllables());
-    word.setDefinition(parser.getDefinition());
-    word.setExamples(parser.getExamples());
-    word.setDidYouKnow(parser.getDidYouKnow());
-    word.setPodcastUrl(parser.getPodcastUrl());
-    word.setImageUrl(parser.getImageUrl());
-    word.setPronounceUrl(parser.getPronounceUrl());
-    return word;
+  public CrawlerService(WordRepository repository,
+                        @Value("${application.properties.crawler.baseUrl}") String baseUrl){
+    this.repository = repository;
+    this.baseUrl = baseUrl;
   }
 
-  private Parser(String date) {
+  @Scheduled(cron = "* 0 1 * * *")
+  public void update(){
+    retrievePodcastForDate(LocalDate.now().toString());
+  }
+
+  public void retrievePodcastForDate(String date) {
+    readTheWebPage(date);
+    Word word = Word.builder()
+        .title(getTitle())
+        .date(getDateStamp())
+        .attribute(getAttr())
+        .syllables(getSyllables())
+        .definition(getDefinition())
+        .examples(getExamples())
+        .didYouKnow(getDidYouKnow())
+        .podcastUrl(getPodcastUrl())
+        .imageUrl(getImageUrl())
+        .pronounceUrl(getPronounceUrl())
+        .build();
+    repository.save(word);
+  }
+
+
+  private void readTheWebPage(String date) {
     this.date = date;
-    this.urlBase += date;
+    this.baseUrl += date;
     Elements children;
     try {
-      this.document = Jsoup.connect(this.urlBase).get();
+      this.document = Jsoup.connect(this.baseUrl).get();
       children = this.document.select("div.wod-definition-container").get(0).children();
       children.removeIf(e -> e.text().equals(""));
       this.allChildren = children.stream().map(Element::text).collect(Collectors.toList());
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error("Something went wrong while crawling the web page. ", e);
     }
   }
 
@@ -126,8 +150,6 @@ public class Parser {
 
     String xml = Utils.getResponse(url);
     return xml.equals("") ? "" : Utils.getSoundElementFromXML(xml);
-
-
   }
 
 

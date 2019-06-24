@@ -9,8 +9,8 @@ spring:
 
 application:
   properties:
-    parser:
-      baseUrl: https://www.merriam-webster.com/wotd/feed/rss2
+    crawler:
+      baseUrl: https://www.merriam-webster.com/word-of-the-day/
       selector:
         title: div.quick-def-box h1
         attribute: div.word-attributes span.main-attr

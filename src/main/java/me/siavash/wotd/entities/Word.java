@@ -1,18 +1,21 @@
 package me.siavash.wotd.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public final class Word {
 
   @Id
@@ -47,8 +50,5 @@ public final class Word {
 
   @Column(name = "wd_pronounceUrl")
   private String pronounceUrl;
-
-  public Word() {
-  }
 
 }

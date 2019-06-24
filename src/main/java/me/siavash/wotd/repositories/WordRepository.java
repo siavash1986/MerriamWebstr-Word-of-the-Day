@@ -8,14 +8,7 @@ import java.util.Optional;
 
 public interface WordRepository extends CrudRepository<Word, String> {
 
-//  CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder()
-//      .withCache("preConfigured",
-//          CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, Word.class,
-//              ResourcePoolsBuilder.heap(100))
-//              .build())
-//      .build(true);
-//
-//  Cache<String, Word> wordsCache = cacheManager.getCache("preConfigured", String.class, Word.class);
+
 //
 //  default Word findWordByDate(String date) {
 //    if (wordsCache.containsKey(date)) {

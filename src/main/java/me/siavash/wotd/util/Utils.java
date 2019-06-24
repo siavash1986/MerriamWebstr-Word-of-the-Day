@@ -15,45 +15,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public class Utils {
 
   private Utils() {
   }
-
-  public static boolean validate(String date) {
-    if (date.equals("today")) {
-      return true;
-    }
-    try {
-      LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
-      return validDateRange(localDate);
-
-    } catch (DateTimeParseException e) {
-      return false;
-    }
-  }
-
-  public static boolean validate(String begin, String end) {
-    return validate(begin) && validate(end)
-        && !LocalDate.parse(parseDate(begin)).isAfter(LocalDate.parse(parseDate(end)));
-  }
-
-  private static boolean validDateRange(LocalDate localDate) {
-    return (!(localDate.isBefore(LocalDate.of(2006, 8, 31)) ||
-        localDate.isAfter(LocalDate.now().plusDays(1))));
-  }
-
-  public static String parseDate(String date) {
-    return date.equals("today") ? LocalDate.now().format(DateTimeFormatter.ISO_DATE)
-        : date;
-  }
-
 
   public static String getResponse(String url) {
     OkHttpClient client = new OkHttpClient();
@@ -127,29 +95,5 @@ public class Utils {
 
   }
 
-  public static void downloadPodcast(String date) {
 
-    String podcastUrl = "https://www.merriam-webster.com/wotd/feed/rss2";
-    String xml = getResponse(podcastUrl);
-    System.out.println("xml = " + xml);
-
-
-
-
-    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-    org.w3c.dom.Document doc = null;
-
-    try {
-      DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-      InputSource is = new InputSource(new StringReader(xml));
-      doc = dBuilder.parse(is);
-    } catch (ParserConfigurationException | IOException | SAXException e) {
-      e.printStackTrace();
-    }
-
-    doc.getDocumentElement().normalize();
-    NodeList nList = doc.getElementsByTagName("item");
-    System.out.println();
-
-  }
 }
