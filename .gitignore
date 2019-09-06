@@ -23,7 +23,3 @@ bin/
 gen/
 out/
 
-# sensetive info
-application.properties
-gradle.properties
-secrets.properties

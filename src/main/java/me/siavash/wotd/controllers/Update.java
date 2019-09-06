@@ -14,35 +14,36 @@ import java.util.Map;
 @Controller
 public class Update {
 
-  private WordRepository repo;
-
-  @Autowired
-  public Update(WordRepository repo) {
-    this.repo = repo;
-  }
+//  private WordRepository repo;
+//
+//  @Autowired
+//  public Update(WordRepository repo) {
+//    this.repo = repo;
+//  }
 
   @ResponseBody
   @PostMapping("/update")
   public String update(@RequestParam(value = "startDate") String startDate,
                        @RequestParam(value = "endDate") String endDate) {
 
-    Map<String, Word> wordsByDateRange = repo.findWordsByDateRange(startDate, endDate);
-
-    wordsByDateRange.values().parallelStream().forEach(w -> {
-      if (w.getPronounceUrl().equals("")) {
-        w.setPronounceUrl(Utils.getPronounceUrl(w));
-        repo.saveAndFlush(w);
-      }
-    });
-
-//    wordsByDateRange.forEach((k, w) -> {
+//    Map<String, Word> wordsByDateRange = repo.findWordsByDateRange(startDate, endDate);
+//
+//    wordsByDateRange.values().parallelStream().forEach(w -> {
 //      if (w.getPronounceUrl().equals("")) {
 //        w.setPronounceUrl(Utils.getPronounceUrl(w));
 //        repo.saveAndFlush(w);
 //      }
-//
 //    });
-
-    return "success!";
+//
+////    wordsByDateRange.forEach((k, w) -> {
+////      if (w.getPronounceUrl().equals("")) {
+////        w.setPronounceUrl(Utils.getPronounceUrl(w));
+////        repo.saveAndFlush(w);
+////      }
+////
+////    });
+//
+//    return "success!";
+    return null;
   }
 }

@@ -20,25 +20,25 @@ import static me.siavash.wotd.util.Utils.validate;
 @Controller
 public class WordBatchRetrieve {
 
-  private final WordRepository repository;
-
-  @Autowired
-  public WordBatchRetrieve(WordRepository repository) {
-    this.repository = repository;
-  }
+//  private final WordRepository repository;
+//
+//  @Autowired
+//  public WordBatchRetrieve(WordRepository repository) {
+//    this.repository = repository;
+//  }
 
 
   @RequestMapping(method = RequestMethod.GET, path = "/batch/words")
   public Response<Map<String, Word>>
   getWords(@RequestParam(value = "dateBegin", required = false, defaultValue = "today") String dateBegin,
            @RequestParam(value = "dateEnd", required = false, defaultValue = "today") String dateEnd) {
-    if (validate(dateBegin, dateEnd)) {
-      String begin = LocalDate.parse(parseDate(dateBegin)).toString();
-      String end = LocalDate.parse(parseDate(dateEnd)).toString();
-      return new Response<>(repository.findWordsByDateRange(begin, end), HttpStatus.OK);
-    }
-    return new Response<>(HttpStatus.BAD_REQUEST);
-
+//    if (validate(dateBegin, dateEnd)) {
+//      String begin = LocalDate.parse(parseDate(dateBegin)).toString();
+//      String end = LocalDate.parse(parseDate(dateEnd)).toString();
+//      return new Response<>(repository.findWordsByDateRange(begin, end), HttpStatus.OK);
+//    }
+//    return new Response<>(HttpStatus.BAD_REQUEST);
+return null;
   }
 
   @RequestMapping(method = RequestMethod.GET, path = "/batch/flatwords")
@@ -46,14 +46,14 @@ public class WordBatchRetrieve {
   getFlatWords(@RequestParam(value = "dateBegin", required = false, defaultValue = "today") String dateBegin,
                @RequestParam(value = "dateEnd", required = false, defaultValue = "today") String dateEnd) {
 
-    if (validate(dateBegin, dateEnd)) {
-      String begin = LocalDate.parse(parseDate(dateBegin)).toString();
-      String end = LocalDate.parse(parseDate(dateEnd)).toString();
-      return new Response<>(repository.findFlatWordsByDateRange(begin, end), HttpStatus.OK);
-    }
-    return new Response<>(HttpStatus.BAD_REQUEST);
+//    if (validate(dateBegin, dateEnd)) {
+//      String begin = LocalDate.parse(parseDate(dateBegin)).toString();
+//      String end = LocalDate.parse(parseDate(dateEnd)).toString();
+//      return new Response<>(repository.findFlatWordsByDateRange(begin, end), HttpStatus.OK);
+//    }
+//    return new Response<>(HttpStatus.BAD_REQUEST);
 
-
+  return null;
   }
 
 }
